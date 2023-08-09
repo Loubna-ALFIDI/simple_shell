@@ -14,4 +14,16 @@
 /* Macros */
 #define BUFFER_SIZE 1024
 
-/* string functions */
+/* string functions 
+ * 0-strings.c */
+int _strlen(char *s);
+void _puts(char *str);
+char *_strcpy(char *dest, char *src);
+int _putchar(char c);
+int _strcmp(char *s1, char *s2);
+
+/* 1-strings.c */
+char *__memcpy(char *dest, char *src, unsigned int n);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+char *_strdup(char *str);
+char *_strchr(char *s, char c);
