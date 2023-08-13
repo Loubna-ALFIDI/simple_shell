@@ -23,6 +23,7 @@ int _putchar(char c);
 int _strcmp(char *s1, char *s2);
 
 /* 1-strings.c */
+char *_strcat(char *dest, char *src);
 char *_strdup(char *str);
 char *_strchr(char *s, char c);
 
