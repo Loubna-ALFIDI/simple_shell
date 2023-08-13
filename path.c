@@ -2,19 +2,17 @@
 
 #define MAX_PATH_LENGTH 1024
 
-char *get_path(const char *command)
-{
-	char *path = getenv("PATH");
-	char *dir = strtok(path, ":");
-	size_t dir_length, command_length;
-	char *full_path;
+char *get_path(const char *command) {
+    char *path = getenv("PATH");
+    char *dir = strtok(path, ":");
+    size_t dir_length, command_length;
+    char *full_path;
 
     while (dir != NULL) {
         dir_length = strlen(dir);
         command_length = strlen(command);
         full_path = (char *)malloc(dir_length + command_length + 2);
-        if (full_path == NULL) 
-	{
+        if (full_path == NULL) {
             perror("malloc");
             exit(1);
         }
@@ -24,7 +22,6 @@ char *get_path(const char *command)
         if (access(full_path, X_OK) == 0) {
             return full_path;
         }
-
         free(full_path);
         dir = strtok(NULL, ":");
     }
