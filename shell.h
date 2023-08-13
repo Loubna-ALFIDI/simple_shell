@@ -31,7 +31,7 @@ char *__memcpy(char *dest, char *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /* path.c */
-void execute_command(char **arg);
+void execute_command(char **argv);
 char *get_path(const char *command);
 
 #endif

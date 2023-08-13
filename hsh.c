@@ -2,11 +2,11 @@
 
 int main (void)
 {
-	char *cmd = NULL, *cmd_cpy = NULL, *token = NULL;
+	char *cmd = NULL;
 	char *str;
 	size_t n = 0;
 	pid_t pid;
-	int argc = 0, i = 0, status;
+	int argc = 0, status, j;
 	char **argv = NULL;
 
 	while (1)
@@ -17,9 +17,10 @@ int main (void)
 			perror("getline");
 			return (-1);
 		}
-		cmd[i - 1] = '\0';
+		cmd[_strlen(cmd) - 1] = '\0';
 		str = strtok(cmd, " ");
-		cmd_cpy = strdup(cmd);
+		argv = NULL;
+		argc = 0;
 
 		while (str)
 		{
@@ -45,13 +46,12 @@ int main (void)
 			perror("wait");
 			exit(EXIT_FAILURE);
 		}
-		for (int j = 0; j < argc; j++)
+		for (j = 0; j < argc; j++)
 			free(argv[j]);
 		free(argv);
 		argc = 0;
 	}
 	free(cmd);
-	free(cmd_cpy);
 
 	return (0);
 }
