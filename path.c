@@ -38,10 +38,6 @@ void execute_command(char **argv)
 	char *executable = argv[0];
 	extern char **environ;
 
-	if (_strcmp(argv[0], "exit") == 0)
-	{
-		exit(0);
-	}
 	if (execve(executable, argv, environ) == -1)
 	{
 		perror("./shell");
