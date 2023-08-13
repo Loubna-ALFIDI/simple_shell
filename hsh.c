@@ -49,7 +49,6 @@ int main (void)
 		for (j = 0; j < argc; j++)
 			free(argv[j]);
 		free(argv);
-		argc = 0;
 	}
 	free(cmd);
 
