@@ -28,20 +28,15 @@ char *get_path(const char *command) {
 
     return NULL;
 }
-
-/**
- * execute_command - execute command
- * @arg: args array
- */
 void execute_command(char **argv)
 {
-	char *executable = argv[0];
-	extern char **environ;
+        char *executable = argv[0];
+        extern char **environ;
 
-	if (execve(executable, argv, environ) == -1)
-	{
-		perror("./shell");
-		exit(EXIT_FAILURE);
-	}
-	free(environ);
+        if (execve(executable, argv, environ) == -1)
+        {
+                perror("./shell");
+                exit(EXIT_FAILURE);
+        }
+        free(environ);
 }
