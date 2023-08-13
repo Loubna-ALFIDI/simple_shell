@@ -50,6 +50,7 @@ int main(void)
 		cmd[_strlen(cmd) - 1] = '\0';
 		if (strcmp(cmd, "exit") == 0)
 			break;
+
 		if (cmd[0] == '/')
 		argv = split_input(cmd, &argc);
 		else
