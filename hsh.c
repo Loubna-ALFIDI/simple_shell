@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * main - Entry point
+ *
+ * Return: 0.
+ */
 int main (void)
 {
 	char *cmd = NULL;
@@ -32,19 +37,26 @@ int main (void)
 		}
 		argv = realloc(argv, (argc + 1) * sizeof(char *));
 		argv[argc] = NULL;
-
-		pid = fork();
-		if (pid == -1)
+		if (access(argv[0], F_OK) == 0)
 		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		if (pid == 0)
-			execute_command(argv);
-		if (waitpid(pid, &status, 0) == -1)
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				exit(EXIT_FAILURE);
+			}
+			if (pid == 0)
+				execute_command(argv);
+			if (waitpid(pid, &status, 0) == -1)
+			{
+				perror("wait");
+				exit(EXIT_FAILURE);
+			}
+		} else
 		{
-			perror("wait");
-			exit(EXIT_FAILURE);
+			write(2, "Command doesn't exist: ", 23);
+			write(2, argv[0], _strlen(argv[0]));
+			write(2, "\n", 1);
 		}
 		for (j = 0; j < argc; j++)
 			free(argv[j]);
