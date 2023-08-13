@@ -48,11 +48,16 @@ int main(void)
 			break;
 		}
 		cmd[_strlen(cmd) - 1] = '\0';
+<<<<<<< HEAD
 		if (strcmp(cmd, "exit") == 0)
 			break;
 
+=======
+		if (_strcmp(cmd, "exit") == 0)
+			exit(0);
+>>>>>>> 60f702a5decf9291dd8361888c24fa5e79b4ab6e
 		if (cmd[0] == '/')
-		argv = split_input(cmd, &argc);
+			argv = split_input(cmd, &argc);
 		else
 		{
 			cmd_cpy = malloc(_strlen(cmd) + 1);
