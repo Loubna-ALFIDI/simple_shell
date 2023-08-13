@@ -15,7 +15,7 @@ int main (void)
 		if (getline(&cmd, &n, stdin) == -1)
 		{
 			perror("getline");
-			return (-1);
+			break;
 		}
 		cmd[_strlen(cmd) - 1] = '\0';
 		str = strtok(cmd, " ");
@@ -49,6 +49,8 @@ int main (void)
 		for (j = 0; j < argc; j++)
 			free(argv[j]);
 		free(argv);
+		argc = 0;
+		free(cmd);
 	}
 	free(cmd);
 
