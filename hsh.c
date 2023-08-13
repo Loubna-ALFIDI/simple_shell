@@ -61,11 +61,12 @@ int main(void)
 			argv = split_input(abs_path, &argc);
 		}
 		if (_strcmp(argv[0], "exit") == 0)
-		{
+                {
 			free(cmd);
 			free(argv);
 			exit(EXIT_SUCCESS);
-		}
+                }
+
 		pid = fork();
 		if (pid == -1)
 		{
