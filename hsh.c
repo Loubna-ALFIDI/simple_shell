@@ -33,8 +33,7 @@ int main(void)
 {
 	char *cmd = NULL, *cmd_cpy;
 	size_t n = 0;
-	char *str;
-	char abs_path[256];
+	char *command, *found_path, abs_path[256];
 	pid_t pid;
 	int argc = 0, status, j;
 	char **argv = NULL;
@@ -50,34 +49,36 @@ int main(void)
 		cmd[_strlen(cmd) - 1] = '\0';
 		if (strcmp(cmd, "exit") == 0)
 			break;
-		if (_strcmp(cmd, "exit") == 0)
-			exit(0);
+		found_path = NULL;
 		if (cmd[0] == '/')
-		{
 			argv = split_input(cmd, &argc);
-		}else if (_strcmp(cmd, "echo") == 0)
-		{
-			echo(cmd);
-			continue;
-		}
 		else
 		{
 			cmd_cpy = malloc(_strlen(cmd) + 1);
 			_strcpy(cmd_cpy, cmd);
-			str = strtok(cmd_cpy, " ");
-			_strcpy(abs_path, "/bin/");
-			_strcat(abs_path, str);
+			command = strtok(cmd_cpy, " ");
+			found_path = get_path(command);
+			if (found_path == NULL)
+			{
+				_puts("command not found");
+				continue;
+			}
+			_strcpy(abs_path, found_path);
 			free(cmd_cpy);
-			argv = split_input(abs_path, &argc);
+			free(found_path);
+			argv = split_input(found_path, &argc);
 		}
 		pid = fork();
 		if (pid == -1)
 		{
-			perror("fork");
-			exit(EXIT_FAILURE);
+		perror("fork");
+		exit(EXIT_FAILURE);
 		}
 		if (pid == 0)
+		{
 			execute_command(argv);
+			exit(EXIT_SUCCESS);
+		}
 		if (waitpid(pid, &status, 0) == -1)
 		{
 			perror("wait");
