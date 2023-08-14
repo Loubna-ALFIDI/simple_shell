@@ -45,7 +45,7 @@ int main(void)
 			perror("getline");
 			break;
 		}
-		cmd[_strlen(cmd) - 1] = '\0';
+		cmd[strcspn(cmd, "\n")] = '\0';
 		if (_strcmp(cmd, "exit") == 0)
 			break;
 		found_path = NULL;

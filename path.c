@@ -8,22 +8,26 @@
 char *get_path(char *command)
 {
 	char *path, *path_copy, *path_token, *file_path;
-	int command_length, directory_length;
 	struct stat buffer;
 
+	if (stat(command, &buffer) == 0)
+		return _strdup(command);
 	path = getenv("PATH");
-
+	if (path == NULL)
+        	return NULL;
+	path_copy = strdup(path);
+	if (path_copy == NULL)
+		return NULL;
 	if (path)
 	{
 		path_copy = _strdup(path);
-		command_length = _strlen(command);
 
 		path_token = strtok(path_copy, ":");
 
 		while(path_token != NULL)
 		{
-			directory_length = _strlen(path_token);
-			file_path = malloc(command_length + directory_length + 2);
+			/* file_path = malloc(directory_length + command_length + 2);*/
+			file_path = malloc(strlen(path_token) + strlen(command) + 2);
 			if (file_path == NULL)
 			{
 				perror("malloc");
@@ -52,6 +56,7 @@ char *get_path(char *command)
 		}
 		return (NULL);
 	}
+	free(path_copy);
 	return (NULL);
 }
 
