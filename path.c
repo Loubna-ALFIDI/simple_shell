@@ -1,96 +1,52 @@
 #include "shell.h"
 
-#define MAX_PATH_LENGTH 1024
-
-int is_cmd(const char *path)
+char *get_path(char *command)
 {
-    struct stat st;
+    char *path, *path_copy, *path_token, *file_path;
+    int command_length, directory_length;
+    struct stat buffer;
 
-    if (!path || stat(path, &st))
-        return 0;
+    path = getenv("PATH");
 
-    if (st.st_mode & S_IFREG)
+    if (path)
     {
-        return 1;
-    }
-    return 0;
-}
+        path_copy = strdup(path);
+        command_length = strlen(command);
 
-char *dup_chars(const char *pathstr, int start, int stop)
-{
-    static char buffer[1024];
-    int i = 0, j = 0;
+        path_token = strtok(path_copy, ":");
 
-    for (j = 0, i = start; i < stop; i++)
-        if (pathstr[i] != ':')
-            buffer[j++] = pathstr[i];
-    buffer[j] = 0;
-    return buffer;
-}
+        while(path_token != NULL)
+	{
+            directory_length = strlen(path_token);
+            file_path = malloc(command_length + directory_length + 2);
+            strcpy(file_path, path_token);
+            strcat(file_path, "/");
+            strcat(file_path, command);
+            strcat(file_path, "\0");
 
-int starts_with(const char *str, const char *prefix)
-{
-    while (*prefix)
-    {
-        if (*str != *prefix)
-            return 0;
-        str++;
-        prefix++;
-    }
-    return 1;
-}
-char *get_path(const char *command)
-{
-    const char *pathstr = getenv("PATH");
-    int i = 0, start_pos = 0;
-    char *path;
-    char *temp;
+            if (stat(file_path, &buffer) == 0){
 
-    if (!pathstr || !command)
-        return NULL;
+                free(path_copy);
 
-    if ((strlen(command) > 2) && starts_with(command, "./"))
-    {
-        if (is_cmd(command))
-            return strdup(command);
-    }
-
-    while (1)
-    {
-        if (!pathstr[i] || pathstr[i] == ':')
-        {
-            path = dup_chars(pathstr, start_pos, i);
-            if (!*path)
-            {
-                path = strdup(command);
+                return (file_path);
             }
-            else
-            {
-                temp = (char *)malloc(strlen(path) + strlen(command) + 2);
-                if (!temp)
-                {
-                    free(path);
-                    return NULL;
-                }
-                strcpy(temp, path);
-                strcat(temp, "/");
-                strcat(temp, command);
-                free(path);
-                path = temp;
+            else{
+                free(file_path);
+                path_token = strtok(NULL, ":");
+
             }
-
-            if (is_cmd(path))
-                return path;
-
-            if (!pathstr[i])
-                break;
-
-            start_pos = i + 1;
         }
-        i++;
-    }
 
-    return NULL;
+        free(path_copy);
+
+        if (stat(command, &buffer) == 0)
+        {
+            return (command);
+        }
+        return (NULL);
+
+    }
+    return (NULL);
 }
 void execute_command(char **argv)
 {
