@@ -47,14 +47,9 @@ int main(void)
 			break;
 		}
 		cmd[_strlen(cmd) - 1] = '\0';
-<<<<<<< HEAD
 		if (_strcmp(cmd, "exit") == 0)
 			break;
-=======
-		if (strcmp(cmd, "exit") == 0)
-			break;
 		found_path = NULL;
->>>>>>> 54ecce63506074bb5e245c6721e1de6bee8e82f9
 		if (cmd[0] == '/')
 			argv = split_input(cmd, &argc);
 		else
@@ -69,8 +64,6 @@ int main(void)
 				continue;
 			}
 			_strcpy(abs_path, found_path);
-			free(cmd_cpy);
-			free(found_path);
 			argv = split_input(found_path, &argc);
 		}
 		pid = fork();

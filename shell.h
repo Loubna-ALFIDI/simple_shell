@@ -10,6 +10,7 @@
 #include <limits.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/stat.h>
 
 /* Macros */
 #define BUFFER_SIZE 1024
