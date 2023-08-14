@@ -18,8 +18,7 @@ char **split_input(char *cmd, int *argc)
     while (str)
     {
         argv = realloc(argv, (count + 1) * sizeof(char *));
-        argv[count] = malloc(_strlen(str) + 1);
-        _strcpy(argv[count], str);
+        argv[count] = _strdup(str);
         count++;
         str = strtok(NULL, " ");
     }
@@ -31,9 +30,9 @@ char **split_input(char *cmd, int *argc)
 }
 int main(void)
 {
-	char *cmd = NULL, *cmd_cpy;
+	char *cmd = NULL;
 	size_t n = 0;
-	char *command, *found_path, abs_path[256];
+	char *found_path;
 	pid_t pid;
 	int argc = 0, status, j;
 	char **argv = NULL;
@@ -50,22 +49,19 @@ int main(void)
 		if (_strcmp(cmd, "exit") == 0)
 			break;
 		found_path = NULL;
-		if (cmd[0] == '/')
-			argv = split_input(cmd, &argc);
-		else
+		argv = split_input(cmd, &argc);
+		if (argc > 0)
 		{
-			cmd_cpy = malloc(_strlen(cmd) + 1);
-			_strcpy(cmd_cpy, cmd);
-			command = strtok(cmd_cpy, " ");
-			found_path = get_path(command);
+			found_path = get_path(argv[0]);
 			if (found_path == NULL)
 			{
-				_puts("command not found");
+				printf("command not found\n");
+				for (j = 0; j < argc; j++)
+					free(argv[j]);
+				free(argv);
 				continue;
 			}
-			_strcpy(abs_path, found_path);
-			argv = split_input(found_path, &argc);
-		}
+		}	
 		pid = fork();
 		if (pid == -1)
 		{
@@ -74,7 +70,11 @@ int main(void)
 		}
 		if (pid == 0)
 		{
-			execute_command(argv);
+			if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
+			{
+				perror("execve");
+				exit(EXIT_FAILURE);
+			}
 			exit(EXIT_SUCCESS);
 		}
 		if (waitpid(pid, &status, 0) == -1)

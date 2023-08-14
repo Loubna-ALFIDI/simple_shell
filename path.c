@@ -51,12 +51,11 @@ char *get_path(char *command)
 void execute_command(char **argv)
 {
 	char *executable = argv[0];
-	extern char **environ;
 
-	if (execve(executable, argv, environ) == -1)
+	if (execve(executable, argv, NULL) == -1)
 	{
 		perror("./shell");
 		exit(EXIT_FAILURE);
 	}
-	free(environ);
+
 }
