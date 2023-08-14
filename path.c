@@ -7,17 +7,15 @@ char *get_path(const char *command)
 
 	char *path = getenv("PATH");
 	char *dir = strtok(path, ":");
-	size_t dir_length, command_length;
-	char *full_path;
+	size_t dir_length, command_length = strlen(command);
+	char *full_path = malloc(MAX_PATH_LENGTH);
 
 	while (dir != NULL)
 	{
 		dir_length = strlen(dir);
-		command_length = strlen(command);
-		full_path = (char *)malloc(dir_length + command_length + 2);
-		if (full_path == NULL)
+		if (dir_length + command_length + 2 > MAX_PATH_LENGTH)
 		{
-			perror("malloc");
+			_puts("path too long");
 			exit(1);
 		}
 		strcpy(full_path, dir);
@@ -25,13 +23,13 @@ char *get_path(const char *command)
 		strcat(full_path, command);
 		if (access(full_path, X_OK) == 0)
 		{
-	    		return full_path;
+	    		return(full_path);
 		}
-		free(full_path);
 		dir = strtok(NULL, ":");
 	}
+	free(full_path);
 
-	return NULL;
+	return(NULL);
 }
 void execute_command(char **argv)
 {
