@@ -33,7 +33,7 @@ char *__memcpy(char *dest, char *src, unsigned int n);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 
 /* path.c */
-void execute_command(char **argv);
+void execute_command(char *executable, char **argv);
 char *get_path(char *command);
 /* handle.c */
 void echo (char *cmd);

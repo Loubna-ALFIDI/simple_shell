@@ -10,18 +10,51 @@
  */
 char **split_input(char *cmd, int *argc)
 {
-    char *str;
     char **argv = NULL;
     int count = 0;
+    int in_arg = 0;
+    char arg_buffer[512];
+    size_t i;
 
-    str = strtok(cmd, " ");
-    while (str)
+    for (i = 0; cmd[i]; i++)
     {
-        argv = realloc(argv, (count + 1) * sizeof(char *));
-        argv[count] = _strdup(str);
-        count++;
-        str = strtok(NULL, " ");
+        if (cmd[i] == ' ' && !in_arg)
+        {
+            continue;
+        }
+        else if (cmd[i] == ' ' && in_arg)
+        {
+            arg_buffer[count] = '\0';
+            argv = realloc(argv, (count + 1) * sizeof(char *));
+            argv[count] = _strdup(arg_buffer);
+            count++;
+            in_arg = 0;
+        }
+	else if (cmd[i] == '"')
+        {
+            i++;
+            while (cmd[i] && cmd[i] != '"')
+            {
+                arg_buffer[in_arg] = cmd[i];
+                in_arg++;
+                i++;
+            }
+        }
+        else
+        {
+            arg_buffer[in_arg] = cmd[i];
+            in_arg++;
+        }
     }
+
+    if (in_arg)
+    {
+        arg_buffer[in_arg] = '\0';
+        argv = realloc(argv, (count + 1) * sizeof(char *));
+        argv[count] = _strdup(arg_buffer);
+        count++;
+    }
+
     argv = realloc(argv, (count + 1) * sizeof(char *));
     argv[count] = NULL;
 
@@ -61,7 +94,9 @@ int main(void)
 				free(argv);
 				continue;
 			}
-		}	
+		}
+		if (cmd != NULL)
+		{
 		pid = fork();
 		if (pid == -1)
 		{
@@ -70,11 +105,7 @@ int main(void)
 		}
 		if (pid == 0)
 		{
-			if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
-			{
-				perror("execve");
-				exit(EXIT_FAILURE);
-			}
+			execute_command(found_path ? found_path : argv[0], argv);
 			exit(EXIT_SUCCESS);
 		}
 		if (waitpid(pid, &status, 0) == -1)
@@ -82,10 +113,12 @@ int main(void)
 			perror("wait");
 			exit(EXIT_FAILURE);
 		}
+		}
 		for (j = 0; j < argc; j++)
 			free(argv[j]);
 		free(argv);
 		argc = 0;
+
 	}
 	free(cmd);
 
