@@ -91,7 +91,6 @@ int main(void)
 					perror("execve");
 					exit(EXIT_FAILURE);
 				}
-				exit(EXIT_SUCCESS);
 			}
 			if (waitpid(pid, &status, 0) == -1)
 			{
