@@ -56,6 +56,10 @@ int main(void)
 			break;
 		}
 		cmd[strcspn(cmd, "\n")] = '\0';
+		if (_strcmp(cmd, "env") == 0)
+		{
+			builtin_env();
+		}
 		if (_strcmp(cmd, "exit") == 0)
 			break;
 		found_path = NULL;
