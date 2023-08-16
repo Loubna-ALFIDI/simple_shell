@@ -16,7 +16,7 @@ char **split_input(char *cmd, int *argc)
 	while (str)
 	{
 		argv = realloc(argv, (count + 1) * sizeof(char *));
-		argv[count] = _strdup(str);
+		argv[count] = strdup(str);
 		if (argv[count] == NULL)
 		{
 			perror("Memory allcation error");
