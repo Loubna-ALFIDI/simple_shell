@@ -1,5 +1,4 @@
 #include "shell.h"
-#include <stdlib.h>
 
 /**
  * __memcpy - copies memory area.
