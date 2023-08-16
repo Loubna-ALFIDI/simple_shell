@@ -69,7 +69,7 @@ int main(void)
 			found_path = get_path(argv[0]);
 			if (found_path == NULL)
 			{
-				printf("command not found\n");
+				perror("./shell");
 				for (j = 0; j < argc; j++)
 					free(argv[j]);
 				free(argv);
