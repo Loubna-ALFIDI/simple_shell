@@ -1,4 +1,11 @@
 #include "shell.h"
+
+/**
+ * split_input - splits an input command string into arguments.
+ * @cmd: command
+ * @argc: arg count
+ * Return: array of args
+ */
 char **split_input(char *cmd, int *argc)
 {
     char *str;
@@ -10,6 +17,11 @@ char **split_input(char *cmd, int *argc)
     {
         argv = realloc(argv, (count + 1) * sizeof(char *));
         argv[count] = _strdup(str);
+	if (argv[count] == NULL)
+	{
+		perror("Memory allcation error");
+		exit(EXIT_FAILURE);
+	}
         count++;
         str = strtok(NULL, " ");
     }
