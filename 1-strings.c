@@ -1,16 +1,14 @@
 #include "shell.h"
-#include <stdlib.h>
 
 /**
- * _strdup - check the code
- * @str: parametre
- * Return: Always 0.
+ * _strdup - same work as strdup.
+ * @str: string to be duplicated.
+ * Return: string copy.
  */
 char *_strdup(char *str)
 {
 	char *a;
-	int i;
-	int j;
+	int i, j;
 
 	if (!str)
 		return (NULL);
@@ -20,15 +18,17 @@ char *_strdup(char *str)
 	a = malloc(sizeof(char) * (i + 1));
 	if (a == NULL)
 		return (NULL);
-	for (j = 0; str[j]; j++)
+	for (j = 0; str[j] != '\0'; j++)
 		a[j] = str[j];
+	a[i] = '\0';
 	return (a);
 }
+
 /**
- * _strchr - entry point
- * @s: input
- * @c: input
- * Return: Always 0 (Success)
+ * _strchr - same work as strchr.
+ * @s: string.
+ * @c: character
+ * Return: pointer to first occurence of character.
  */
 char *_strchr(char *s, char c)
 {
@@ -41,11 +41,12 @@ char *_strchr(char *s, char c)
         }
         return (0);
 }
+
 /**
- *_strcat - check the code
- *@dest: parametre
- *@src: parametre
- *Return: Always 0.
+ *_strcat - same work as strcat.
+ *@dest: first string.
+ *@src: second string.
+ *Return: concatenated string.
  */
 char *_strcat(char *dest, char *src)
 {
