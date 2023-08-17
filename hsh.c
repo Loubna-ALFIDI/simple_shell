@@ -11,18 +11,35 @@ char **split_input(char *cmd, int *argc)
 	char *str;
 	char **argv = NULL;
 	int count = 0;
+	int quotes= 0;
 
 	str = strtok(cmd, " ");
 	while (str)
 	{
-		argv = realloc(argv, (count + 1) * sizeof(char *));
-		argv[count] = _strdup(str);
-		if (argv[count] == NULL)
+		if (str[0] == '"' || str[0] == '\'')
 		{
-			perror("Memory allcation error");
-			exit(EXIT_FAILURE);
+			if (quotes)
+			{
+				quotes = 0;
+				str[_strlen(str) - 1] = '\0';
+				str++;
+			} else
+			{
+				quotes = 1;
+				str++;
+			}
 		}
-		count++;
+		if (!quotes)
+		{
+			argv = realloc(argv, (count + 1) * sizeof(char *));
+			argv[count] = _strdup(str);
+			if (argv[count] == NULL)
+			{
+				perror("Memory allcation error");
+				exit(EXIT_FAILURE);
+			}
+			count++;
+		}
 		str = strtok(NULL, " ");
 	}
 	argv = realloc(argv, (count + 1) * sizeof(char *));
@@ -55,7 +72,7 @@ int main(void)
 			perror("getline");
 			break;
 		}
-		cmd[strcspn(cmd, "\n")] = '\0';
+		cmd[_strlen(cmd) - 1] = '\0';
 		if (_strcmp(cmd, "env") == 0)
 		{
 			builtin_env();
