@@ -103,8 +103,7 @@ int main(void)
 			{
 				if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
 				{
-					perror("execve");
-					exit(EXIT_FAILURE);
+					execute_command(argv);
 				}
 			}
 			if (waitpid(pid, &status, 0) == -1)

@@ -71,7 +71,7 @@ void execute_command(char **argv)
 }
 
 /**
- * getenv - same as getenv
+ * _getenv - same as getenv
  * @name: string
  * Return: string
  */
