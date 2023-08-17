@@ -12,7 +12,7 @@ char *get_path(char *command)
 
 	if (stat(command, &buffer) == 0)
 		return (_strdup(command));
-	path = getenv("PATH");
+	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
 	path_copy = _strdup(path);
@@ -69,3 +69,39 @@ void execute_command(char **argv)
 	}
 	free(environ);
 }
+
+/**
+ * getenv - same as getenv
+ * @name: string
+ * Return: string
+ */
+char *_getenv(char *name)
+{
+	extern char **environ;
+	char **env = environ;
+	char *value = NULL;
+	int len = _strlen(name);
+
+	while (*env != NULL)
+	{
+		char *var = *env;
+		int j;
+
+		for (j = 0; j < len; j++)
+		{
+			if (name[j] != var[j])
+				break;
+		}
+
+		if (j == len && var[j] == '=')
+		{
+			value = var + len + 1;
+			break;
+		}
+
+		env++;
+	}
+
+	return value;
+}
+

@@ -34,6 +34,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 /* path.c */
 void execute_command(char **argv);
 char *get_path(char *command);
+char *_getenv(char *name);
 
 /*builtin*/
 void builtin_env(void);
