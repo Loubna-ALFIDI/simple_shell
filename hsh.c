@@ -8,56 +8,46 @@
  */
 char **split_input(char *cmd, int *argc)
 {
-    char *str;
-    char **argv = NULL;
-    int count = 0;
-    int quotes = 0;
-    int quote_type = '\0';
-    size_t i;
+	char *str;
+	char **argv = NULL;
+	int count = 0, quotes = 0, quote_type = '\0';
+	size_t i;
 
-    str = strtok(cmd, " ");
-    while (str)
-    {
-        if (str[0] == '"' || str[0] == '\'')
-        {
-            quotes = 1;
-            quote_type = str[0];
-
-            for (i = 0; i < strlen(str); i++)
-            {
-                str[i] = str[i + 1];
-            }
-        }
-
-        if (quotes && str[strlen(str) - 1] == quote_type)
-        {
-
-            str[strlen(str) - 1] = '\0';
-            quotes = 0;
-            quote_type = '\0';
-        }
-
-        if (!quotes)
-        {
-            argv = realloc(argv, (count + 1) * sizeof(char *));
-            argv[count] = strdup(str);
-            if (argv[count] == NULL)
-            {
-                perror("Memory allocation error");
-                exit(EXIT_FAILURE);
-            }
-            count++;
-        }
-
-        str = strtok(NULL, " ");
-    }
-
-    argv = realloc(argv, (count + 1) * sizeof(char *));
-    argv[count] = NULL;
-
-    *argc = count;
-    return argv;
+	str = strtok(cmd, " ");
+	while (str)
+	{
+		if (str[0] == '"' || str[0] == '\'')
+		{
+			quotes = 1;
+			quote_type = str[0];
+			for (i = 0; i < strlen(str); i++)
+				str[i] = str[i + 1];
+		}
+		if (quotes && str[strlen(str) - 1] == quote_type)
+		{
+			str[strlen(str) - 1] = '\0';
+			quotes = 0;
+			quote_type = '\0';
+		}
+		if (!quotes)
+		{
+			argv = realloc(argv, (count + 1) * sizeof(char *));
+			argv[count] = strdup(str);
+			if (argv[count] == NULL)
+			{
+				perror("Memory allocation error");
+				exit(EXIT_FAILURE);
+			}
+			count++;
+		}
+		str = strtok(NULL, " ");
+	}
+	argv = realloc(argv, (count + 1) * sizeof(char *));
+	argv[count] = NULL;
+	*argc = count;
+	return (argv);
 }
+
 /**
  * main - Entry point
  *
