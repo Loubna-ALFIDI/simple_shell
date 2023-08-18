@@ -20,12 +20,12 @@ char **split_input(char *cmd, int *argc)
 		{
 			quotes = 1;
 			quote_type = str[0];
-			for (i = 0; i < strlen(str); i++)
+			for (i = 0; i < (size_t)(_strlen(str)); i++)
 				str[i] = str[i + 1];
 		}
-		if (quotes && str[strlen(str) - 1] == quote_type)
+		if (quotes && str[_strlen(str) - 1] == quote_type)
 		{
-			str[strlen(str) - 1] = '\0';
+			str[_strlen(str) - 1] = '\0';
 			quotes = 0;
 			quote_type = '\0';
 		}
