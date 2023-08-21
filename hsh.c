@@ -1,4 +1,12 @@
 #include "shell.h"
+void free_argv(char **argv, int argc)
+{
+	int i;
+
+    for (i = 0; i < argc; i++)
+        free(argv[i]);
+    free(argv);
+}
 
 /**
  * split_input - splits an input command string into arguments.
@@ -70,7 +78,14 @@ int main(void)
 			perror("getline");
 			break;
 		}
-		cmd[_strlen(cmd) - 1] = '\0';
+		if (_strlen(cmd) > 0 && cmd[_strlen(cmd) - 1] == '\n')
+			cmd[_strlen(cmd) - 1] = '\0';
+		if (_strlen(cmd) == 0)
+		{
+			free(cmd);
+			cmd = NULL;
+			continue;
+		}
 		if (_strcmp(cmd, "env") == 0)
 		{
 			builtin_env();
@@ -112,13 +127,10 @@ int main(void)
 				exit(EXIT_FAILURE);
 			}
 		}
-		for (j = 0; j < argc; j++)
-			free(argv[j]);
-		free(argv);
-		/*argc = 0;*/
-		free(cmd);
+		free_argv(argv,argc);
+		argc = 0;
 		cmd = NULL;
 	}
-	/*free(cmd);*/
+	free(cmd);
 	return (0);
 }

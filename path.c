@@ -15,22 +15,21 @@ char *get_path(char *command)
 	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
-	path_copy = _strdup(path);
-	if (path_copy == NULL)
-		return (NULL);
 	if (path)
 	{
 		path_copy = _strdup(path);
-
+		if (path_copy == NULL)
+			return (NULL);		  
 		path_token = strtok(path_copy, ":");
 
 		while(path_token != NULL)
 		{
-			file_path = malloc(strlen(path_token) + strlen(command) + 2);
+			file_path = malloc(_strlen(path_token) + _strlen(command) + 2);
 			if (file_path == NULL)
 			{
 				perror("malloc");
 				free(path_copy);
+				free(command);
 				return (NULL);
 			}
 			_strcpy(file_path, path_token);
@@ -60,14 +59,12 @@ char *get_path(char *command)
 void execute_command(char **argv)
 {
 	char *executable = argv[0];
-	extern char **environ;
 
-	if (execve(executable, argv, environ) == -1)
+	if (execve(executable, argv, NULL) == -1)
 	{
 		perror("./shell");
 		exit(EXIT_FAILURE);
 	}
-	free(environ);
 }
 
 /**
