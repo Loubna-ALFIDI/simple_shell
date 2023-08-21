@@ -67,7 +67,7 @@ int main(void)
 	size_t n = 0;
 	char *found_path;
 	pid_t pid;
-	int argc = 0, status, j;
+	int argc = 0, status;
 	char **argv = NULL;
 
 	while (1)
@@ -100,9 +100,7 @@ int main(void)
 			if (found_path == NULL)
 			{
 				perror("./shell");
-				for (j = 0; j < argc; j++)
-					free(argv[j]);
-				free(argv);
+				free_argv(argv,argc);
 				continue;
 			}
 		}
@@ -130,6 +128,7 @@ int main(void)
 		free_argv(argv,argc);
 		argc = 0;
 		cmd = NULL;
+
 	}
 	free(cmd);
 	return (0);

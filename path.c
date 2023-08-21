@@ -15,37 +15,33 @@ char *get_path(char *command)
 	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
-	if (path)
+	path_copy = _strdup(path);
+	if (path_copy == NULL)
+		return (NULL);		  
+	path_token = strtok(path_copy, ":");
+	while(path_token != NULL)
 	{
-		path_copy = _strdup(path);
-		if (path_copy == NULL)
-			return (NULL);		  
-		path_token = strtok(path_copy, ":");
-
-		while(path_token != NULL)
+		file_path = malloc(_strlen(path_token) + _strlen(command) + 2);
+		if (file_path == NULL)
 		{
-			file_path = malloc(_strlen(path_token) + _strlen(command) + 2);
-			if (file_path == NULL)
-			{
-				perror("malloc");
-				free(path_copy);
-				free(command);
-				return (NULL);
-			}
-			_strcpy(file_path, path_token);
-			_strcat(file_path, "/");
-			_strcat(file_path, command);
-			_strcat(file_path, "\0");
-			if (stat(file_path, &buffer) == 0)
-			{
-				free(path_copy);
-				return (file_path);
-			}
-			else
-			{
-				free(file_path);
-				path_token = strtok(NULL, ":");
-			}
+			perror("malloc");
+			free(path_copy);
+			free(command);
+			return (NULL);
+		}
+		_strcpy(file_path, path_token);
+		_strcat(file_path, "/");
+		_strcat(file_path, command);
+		_strcat(file_path, "\0");
+		if (stat(file_path, &buffer) == 0)
+		{
+			free(path_copy);
+			return (file_path);
+		}
+		else
+		{
+			free(file_path);
+			path_token = strtok(NULL, ":");
 		}
 	}
 	free(path_copy);
