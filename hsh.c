@@ -57,6 +57,15 @@ char **split_input(char *cmd, int *argc)
 }
 
 /**
+ * sigint_handler - handles the case when the program gets imterrupted
+ */
+void sigint_handler(int signum)
+{
+	(void)signum;	
+	exit(EXIT_SUCCESS);
+}
+
+/**
  * main - Entry point
  *
  * Return: 0.
@@ -70,6 +79,7 @@ int main(void)
 	int argc = 0, status;
 	char **argv = NULL;
 
+	signal(SIGINT, sigint_handler);
 	while (1)
 	{
 		write(1, "$ ", 2);
@@ -136,7 +146,6 @@ int main(void)
 		cmd = NULL;
 
 	}
-	free_argv(argv, argc);
 	free(cmd);
 	return (0);
 }
