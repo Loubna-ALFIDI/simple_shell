@@ -61,13 +61,8 @@ char **split_input(char *cmd, int *argc)
  */
 void sigint_handler(int signum)
 {
-<<<<<<< HEAD
         (void)signum;
         exit(EXIT_SUCCESS);
-=======
-	(void)signum;	
-	exit(EXIT_SUCCESS);
->>>>>>> e95a430cb84aae374567b56c0f4e779c677989d9
 }
 
 /**
