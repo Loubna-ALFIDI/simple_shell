@@ -16,7 +16,7 @@ void free_argv(char **argv, int argc)
  */
 char **split_input(char *cmd, int *argc)
 {
-	char *str;
+	char *str, **temp;
 	char **argv = NULL;
 	int count = 0, quotes = 0, quote_type = '\0';
 	size_t i;
@@ -39,7 +39,13 @@ char **split_input(char *cmd, int *argc)
 		}
 		if (!quotes)
 		{
-			argv = realloc(argv, (count + 1) * sizeof(char *));
+			temp = realloc(argv, (count + 1) * sizeof(char *));
+			if (temp == NULL)
+			{
+				perror("Memory allocation failed");
+				exit(EXIT_FAILURE);
+			} else
+				argv = temp;
 			argv[count] = strdup(str);
 			if (argv[count] == NULL)
 			{
@@ -50,7 +56,13 @@ char **split_input(char *cmd, int *argc)
 		}
 		str = strtok(NULL, " ");
 	}
-	argv = realloc(argv, (count + 1) * sizeof(char *));
+	temp = realloc(argv, (count + 1) * sizeof(char *));
+	if (temp == NULL)
+	{
+	       	perror("Memory allocation failed");
+	        exit(EXIT_FAILURE);
+	} else
+		argv = temp;
 	argv[count] = NULL;
 	*argc = count;
 	return (argv);
@@ -127,9 +139,11 @@ int main(void)
 		}
 		free_argv(argv,argc);
 		argc = 0;
+		free(cmd);
 		cmd = NULL;
 
 	}
+	free_argv(argv, argc);
 	free(cmd);
 	return (0);
 }

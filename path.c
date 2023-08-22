@@ -21,7 +21,7 @@ char *get_path(char *command)
 	path_token = strtok(path_copy, ":");
 	while(path_token != NULL)
 	{
-		file_path = malloc(_strlen(path_token) + _strlen(command) + 2);
+		file_path = malloc(_strlen(path_token) + _strlen(command) + 2 + 1);
 		if (file_path == NULL)
 		{
 			perror("malloc");
