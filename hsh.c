@@ -75,6 +75,11 @@ int main(void)
 		write(1, "$ ", 2);
 		if (getline(&cmd, &n, stdin) == -1)
 		{
+			if (cmd != NULL)
+			{
+				free(cmd);
+				break;
+			}
 			perror("getline");
 			break;
 		}
@@ -132,6 +137,6 @@ int main(void)
 
 	}
 	free_argv(argv, argc);
-	/*free(cmd)*/
+	free(cmd);
 	return (0);
 }
