@@ -132,6 +132,6 @@ int main(void)
 
 	}
 	free_argv(argv, argc);
-	free(cmd);
+	/*free(cmd)*/
 	return (0);
 }
