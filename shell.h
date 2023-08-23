@@ -29,7 +29,7 @@ char *_strchr(char *s, char c);
 
 /* memory.c*/
 char *__memcpy(char *dest, char *src, unsigned int n);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void *_realloc(void *ptr, unsigned int size);
 
 /* path.c */
 void execute_command(char **argv);
