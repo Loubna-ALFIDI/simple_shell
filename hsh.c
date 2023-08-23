@@ -65,6 +65,8 @@ void sigint_handler(int signum)
         (void)signum;
 	write(STDOUT_FILENO, "\n$ ", 4);
 }
+void interactive(char argv[], char env[]);
+void non_interactive(char argv[], char env[]);
 
 /**
  * main - Entry point
@@ -83,8 +85,10 @@ int main(void)
 	struct stat buffer;
 
 	signal(SIGINT, sigint_handler);
-	while (1)
+	if (isatty(STDIN_FILENO) == 1)
 	{
+	while (1)
+	{	
 		write(1, "$ ", 2);
 		line_read = getline(&cmd, &n, stdin);
 		if (line_read == -1)
@@ -92,17 +96,6 @@ int main(void)
 			write(1, "\n", 1);
 			free(cmd);
 			exit(1);
-		/*	if (feof(stdin))
-				break;
-			else if (cmd != NULL)
-			{
-				free(cmd);
-				cmd = NULL;
-				continue;
-				break;
-			}
-			perror("getline");
-			break;*/
 		}
 		if (_strlen(cmd) > 0 && cmd[_strlen(cmd) - 1] == '\n')
 			cmd[_strlen(cmd) - 1] = '\0';
@@ -163,5 +156,6 @@ int main(void)
 
 	}
 	free(cmd);
+	}
 	return (0);
 }
