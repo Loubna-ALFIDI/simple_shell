@@ -63,6 +63,7 @@ char **split_input(char *cmd, int *argc)
 void sigint_handler(int signum)
 {
         (void)signum;
+	write(STDOUT_FILENO, "\n$ ", 4);
         exit(EXIT_SUCCESS);
 }
 
