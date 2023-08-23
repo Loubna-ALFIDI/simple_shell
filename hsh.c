@@ -89,9 +89,7 @@ int main(void)
 		line_read = getline(&cmd, &n, stdin);
 		if (line_read == -1)
 		{
-			if (feof(stdin))
-				break;
-			else if (cmd != NULL)
+			if (cmd != NULL)
 			{
 				free(cmd);
 				cmd = NULL;
