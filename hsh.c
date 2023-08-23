@@ -88,7 +88,9 @@ int main(void)
 			if (cmd != NULL)
 			{
 				free(cmd);
-				break;
+				cmd = NULL;
+				continue;
+				/*break;*/
 			}
 			perror("getline");
 			break;
@@ -132,6 +134,9 @@ int main(void)
 				if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
 				{
 					execute_command(argv);
+					free(found_path);
+					free_argv(argv, argc);
+					exit(EXIT_FAILURE);
 				}
 			}
 			if (waitpid(pid, &status, 0) == -1)

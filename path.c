@@ -7,13 +7,12 @@
  */
 char *get_path(char *command)
 {
-	char *path, *path_copy, *path_token, *file_path, *st;
+	char *path, *path_copy, *path_token, *file_path;
 	struct stat buffer;
 
-	st = _strdup(command);
+/*	st = _strdup(command);*/
 	if (stat(command, &buffer) == 0)
-		return (st);
-	free(st);
+		return (command);
 	path = _getenv("PATH");
 	if (path == NULL)
 		return (NULL);
@@ -40,14 +39,11 @@ char *get_path(char *command)
 			free(path_copy);
 			return (file_path);
 		}
-		else
-		{
-			free(file_path);
-			path_token = strtok(NULL, ":");
-		}
+		free(file_path);
+		path_token = strtok(NULL, ":");
+	
 	}
 	free(path_copy);
-	/*free(file_path);*/
 	return (NULL);
 }
 
