@@ -10,7 +10,7 @@ char *get_path(char *command)
 	char *path, *path_copy, *path_token, *file_path;
 	struct stat buffer;
 
-/*	st = _strdup(command);*/
+	/*st = _strdup(command);*/
 	if (stat(command, &buffer) == 0)
 		return (command);
 	path = _getenv("PATH");
@@ -41,7 +41,6 @@ char *get_path(char *command)
 		}
 		free(file_path);
 		path_token = strtok(NULL, ":");
-	
 	}
 	free(path_copy);
 	return (NULL);

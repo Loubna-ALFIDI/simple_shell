@@ -79,6 +79,7 @@ int main(void)
 	pid_t pid;
 	int argc = 0, status;
 	char **argv = NULL;
+	struct stat buffer;
 
 	signal(SIGINT, sigint_handler);
 	while (1)
@@ -140,12 +141,15 @@ int main(void)
 					exit(EXIT_FAILURE);
 				}
 			}
+			if (found_path && stat(found_path, &buffer))
+				free(found_path);
 			if (waitpid(pid, &status, 0) == -1)
 			{
 				perror("wait");
 				exit(EXIT_FAILURE);
 			}
 		}
+		
 		free_argv(argv,argc);
 		argc = 0;
 		free(cmd);
