@@ -69,6 +69,7 @@ void non_interactive()
 {
 	char *cmd = NULL;
 	size_t n = 0;
+	char error_msg[50];
 	ssize_t line_read;
 	char *found_path;
 	pid_t pid;
@@ -104,7 +105,13 @@ void non_interactive()
 		found_path = get_path(argv[0]);
 		if (found_path == NULL)
 		{
-			perror("./shell");
+			/*perror("./shell");*/
+			_itoa(__LINE__, error_msg, 10);
+			_strcat(error_msg, ": ");
+			_strcat(error_msg, argv[0]);
+			_strcat(error_msg, ": not found\n");
+			write(STDERR_FILENO, "./hsh: ", 7);
+			write(STDERR_FILENO, error_msg, strlen(error_msg));
 			free_argv(argv,argc);
 			exit(1);
 		}
@@ -122,6 +129,12 @@ void non_interactive()
 			if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
 			{
 				/*ecute_command(argv);*/
+				_itoa(__LINE__, error_msg, 10);
+				_strcat(error_msg, ": ");
+				_strcat(error_msg, argv[0]);
+				_strcat(error_msg, ": not found\n");
+				write(STDERR_FILENO, "./hsh: ", 7);
+				write(STDERR_FILENO, error_msg, strlen(error_msg));
 				free(found_path);
 				free_argv(argv, argc);
 				exit(EXIT_FAILURE);
@@ -150,6 +163,7 @@ int main(void)
 {
 	char *cmd = NULL;
 	size_t n = 0;
+	char error_msg[50];
 	ssize_t line_read;
 	char *found_path;
 	pid_t pid;
@@ -191,7 +205,13 @@ int main(void)
 			found_path = get_path(argv[0]);
 			if (found_path == NULL)
 			{
-				perror("./shell");
+				/*perror("./shell");*/
+				_itoa(__LINE__, error_msg, 10);
+				_strcat(error_msg, ": ");
+				_strcat(error_msg, argv[0]);
+				_strcat(error_msg, ": not found\n");
+				write(STDERR_FILENO, "./hsh: ", 7);
+				write(STDERR_FILENO, error_msg, strlen(error_msg));
 				free_argv(argv,argc);
 				continue;
 			}
@@ -208,7 +228,12 @@ int main(void)
 			{
 				if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
 				{
-					execute_command(argv);
+					_itoa(__LINE__, error_msg, 10);
+					_strcat(error_msg, ": ");
+					_strcat(error_msg, argv[0]);
+					_strcat(error_msg, ": not found\n");
+					write(STDERR_FILENO, "./hsh: ", 7);
+					write(STDERR_FILENO, error_msg, strlen(error_msg));
 					free(found_path);
 					free_argv(argv, argc);
 					exit(EXIT_FAILURE);

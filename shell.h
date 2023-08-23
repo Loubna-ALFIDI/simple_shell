@@ -41,5 +41,8 @@ void builtin_env(void);
 
 /* handle.c */
 void echo (char *cmd);
+/*function*/
+void reverse(char str[], int length);
+char *_itoa(int num, char* str, int base);
 
 #endif
