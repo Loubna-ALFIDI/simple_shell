@@ -1,5 +1,10 @@
 #include "shell.h"
 
+/**
+ * reverse - reverse a string
+ * @str: string
+ * @length: length of string
+ */
 void reverse(char str[], int length)
 {
 	int start = 0;
@@ -16,7 +21,14 @@ void reverse(char str[], int length)
 	}
 }
 
-char* _itoa(int num, char* str, int base)
+/**
+ * _itoa - convert an integer into its ASCII string representation.
+ * @num: The integer value that you want to convert to a string.
+ * @str: A character array where the resulting ASCII string will be stored.
+ * @base: The numeric base used for conversion.
+ * Return: returns the constructed ASCII string.
+ */
+char *_itoa(int num, char *str, int base)
 {
 	int i = 0;
 	int isNegative = 0;
@@ -26,7 +38,7 @@ char* _itoa(int num, char* str, int base)
 	{
 		str[i++] = '0';
 		str[i] = '\0';
-		return str;
+		return (str);
 	}
 	if (num < 0 && base == 10)
 	{
@@ -46,5 +58,5 @@ char* _itoa(int num, char* str, int base)
 
 	str[i] = '\0';
 	reverse(str, i);
-	return str;
+	return (str);
 }
