@@ -75,19 +75,23 @@ int main(void)
 {
 	char *cmd = NULL;
 	size_t n = 0;
+	ssize_t line_read;
 	char *found_path;
 	pid_t pid;
 	int argc = 0, status;
 	char **argv = NULL;
 	struct stat buffer;
 
-	/*signal(SIGINT, sigint_handler);*/
+	signal(SIGINT, sigint_handler);
 	while (1)
 	{
 		write(1, "$ ", 2);
-		if (getline(&cmd, &n, stdin) == -1)
+		line_read = getline(&cmd, &n, stdin);
+		if (line_read == -1)
 		{
-			if (cmd != NULL)
+			if (feof(stdin))
+				break;
+			else if (cmd != NULL)
 			{
 				free(cmd);
 				cmd = NULL;
