@@ -51,8 +51,11 @@ char **split_input(char cmd[], int *argc)
 		}
 		str = strtok(NULL, " ");
 	}
-	argv = realloc(argv, (count + 1) * sizeof(char *));
-	argv[count] = NULL;
+	if (count > 0)
+	{
+		argv = realloc(argv, (count + 1) * sizeof(char *));
+		argv[count] = NULL;
+	}
 	*argc = count;
 	return (argv);
 }
@@ -115,6 +118,11 @@ void non_interactive()
 			free_argv(argv,argc);
 			exit(1);
 		}
+	} else
+	{
+		free(cmd);
+		cmd = NULL;
+		exit(1);
 	}
 	if (cmd != NULL)
 	{
@@ -215,6 +223,11 @@ int main(void)
 				free_argv(argv,argc);
 				continue;
 			}
+		} else
+		{
+			free(cmd);
+			cmd = NULL;
+			continue;
 		}
 		if (cmd != NULL)
 		{
