@@ -96,3 +96,37 @@ char *_getenv(char *name)
 	return value;
 }
 
+/**
+ * trim_spaces -  handle cases where the user enters spaces then presses Enter
+ * @str: string
+ */
+void trim_spaces(char *str)
+{
+        size_t len = strlen(str);
+        size_t start = 0;
+        size_t end = len - 1;
+
+
+        while (start < len && str[start] == ' ')
+        {
+                start++;
+        }
+
+        while (end >= start && (str[end] == ' ' || str[end] == '\n'))
+        {
+                str[end] = '\0';
+                end--;
+        }
+
+        if (start > 0)
+        {
+                size_t dest = 0;
+                while (start <= end)
+                {
+                        str[dest] = str[start];
+                        dest++;
+                        start++;
+                }
+                str[dest] = '\0';
+        }
+}
