@@ -69,7 +69,7 @@ char **split_input(char *cmd, int *argc)
  */
 void sigint_handler(int signum)
 {
-        (void)signum;
+	(void)signum;
 	write(STDOUT_FILENO, "\n$ ", 4);
 }
 
@@ -121,7 +121,7 @@ void non_interactive(void)
 			_strcat(error_msg, ": not found\n");
 			write(STDERR_FILENO, "./hsh: ", 7);
 			write(STDERR_FILENO, error_msg, _strlen(error_msg));
-			free_argv(argv,argc);
+			free_argv(argv, argc);
 			exit(1);
 		}
 	}
@@ -157,7 +157,7 @@ void non_interactive(void)
 	}
 	if (found_path && (stat(argv[0], &buffer)))
 		free(found_path);
-	free_argv(argv,argc);
+	free_argv(argv, argc);
 	argc = 0;
 	free(cmd);
 	cmd = NULL;
@@ -219,7 +219,7 @@ int main(void)
 					_strcat(error_msg, ": not found\n");
 					write(STDERR_FILENO, "./hsh: ", 7);
 					write(STDERR_FILENO, error_msg, _strlen(error_msg));
-					free_argv(argv,argc);
+					free_argv(argv, argc);
 					continue;
 				}
 			}
@@ -255,7 +255,7 @@ int main(void)
 			}
 			if (found_path && (stat(argv[0], &buffer)))
 				free(found_path);
-			free_argv(argv,argc);
+			free_argv(argv, argc);
 			argc = 0;
 			free(cmd);
 			cmd = NULL;

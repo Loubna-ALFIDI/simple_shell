@@ -18,9 +18,9 @@ char *get_path(char *command)
 		return (NULL);
 	path_copy = _strdup(path);
 	if (path_copy == NULL)
-		return (NULL);		  
+		return (NULL);
 	path_token = strtok(path_copy, ":");
-	while(path_token != NULL)
+	while (path_token != NULL)
 	{
 		file_path = malloc(_strlen(path_token) + _strlen(command) + 2 + 1);
 		if (file_path == NULL)
@@ -48,7 +48,7 @@ char *get_path(char *command)
 
 /**
  * execute_command - executes the given command
- * argv: command
+ * @argv: command
  */
 void execute_command(char **argv)
 {
@@ -68,7 +68,6 @@ void execute_command(char **argv)
  */
 char *_getenv(char *name)
 {
-	extern char **environ;
 	char **env = environ;
 	char *value = NULL;
 	int len = _strlen(name);
@@ -93,40 +92,5 @@ char *_getenv(char *name)
 		env++;
 	}
 
-	return value;
-}
-
-/**
- * trim_spaces -  handle cases where the user enters spaces then presses Enter
- * @str: string
- */
-void trim_spaces(char *str)
-{
-        size_t len = strlen(str);
-        size_t start = 0;
-        size_t end = len - 1;
-
-
-        while (start < len && str[start] == ' ')
-        {
-                start++;
-        }
-
-        while (end >= start && (str[end] == ' ' || str[end] == '\n'))
-        {
-                str[end] = '\0';
-                end--;
-        }
-
-        if (start > 0)
-        {
-                size_t dest = 0;
-                while (start <= end)
-                {
-                        str[dest] = str[start];
-                        dest++;
-                        start++;
-                }
-                str[dest] = '\0';
-        }
+	return (value);
 }

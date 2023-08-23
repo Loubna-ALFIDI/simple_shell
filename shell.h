@@ -45,4 +45,6 @@ void echo (char *cmd);
 void reverse(char str[], int length);
 char *_itoa(int num, char* str, int base);
 
+extern char **environ;
+
 #endif
