@@ -64,7 +64,6 @@ void sigint_handler(int signum)
 {
         (void)signum;
 	write(STDOUT_FILENO, "\n$ ", 4);
-        exit(EXIT_SUCCESS);
 }
 
 /**
@@ -82,7 +81,7 @@ int main(void)
 	char **argv = NULL;
 	struct stat buffer;
 
-	signal(SIGINT, sigint_handler);
+	/*signal(SIGINT, sigint_handler);*/
 	while (1)
 	{
 		write(1, "$ ", 2);
