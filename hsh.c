@@ -121,7 +121,7 @@ void non_interactive()
 		{
 			if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
 			{
-				execute_command(argv);
+				/*ecute_command(argv);*/
 				free(found_path);
 				free_argv(argv, argc);
 				exit(EXIT_FAILURE);
@@ -229,7 +229,7 @@ int main(void)
 
 	}
 	free(cmd);
-	}
-	non_interactive();
+	} else
+		non_interactive();
 	return (0);
 }
