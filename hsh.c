@@ -229,7 +229,6 @@ int main(void)
 
 	}
 	free(cmd);
-	return (0);
 	}
 	non_interactive();
 	return (0);
