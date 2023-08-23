@@ -1,4 +1,5 @@
 #include "shell.h"
+#include <signal.h>
 void free_argv(char **argv, int argc)
 {
 	int i;
