@@ -65,8 +65,81 @@ void sigint_handler(int signum)
         (void)signum;
 	write(STDOUT_FILENO, "\n$ ", 4);
 }
-void interactive(char argv[], char env[]);
-void non_interactive(char argv[], char env[]);
+void non_interactive()
+{
+	char *cmd = NULL;
+	size_t n = 0;
+	ssize_t line_read;
+	char *found_path;
+	pid_t pid;
+	int argc = 0, status;
+	char **argv = NULL;
+	struct stat buffer;
+
+	line_read = getline(&cmd, &n, stdin);
+	if (line_read == -1)
+	{
+		write(1, "\n", 1);
+		free(cmd);
+		exit(1);
+	}
+	if (_strlen(cmd) > 0 && cmd[_strlen(cmd) - 1] == '\n')
+		cmd[_strlen(cmd) - 1] = '\0';
+	if (_strlen(cmd) == 0)
+	{
+		free(cmd);
+		cmd = NULL;
+		exit(1);
+	}
+	if (_strcmp(cmd, "env") == 0)
+	{
+		builtin_env();
+	}
+	if (_strcmp(cmd, "exit") == 0)
+		exit(1);
+	found_path = NULL;
+	argv = split_input(cmd, &argc);
+	if (argc > 0)
+	{
+		found_path = get_path(argv[0]);
+		if (found_path == NULL)
+		{
+			perror("./shell");
+			free_argv(argv,argc);
+			exit(1);
+		}
+	}
+	if (cmd != NULL)
+	{
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		if (pid == 0)
+		{
+			if (execve(found_path ? found_path : argv[0], argv, NULL) == -1)
+			{
+				execute_command(argv);
+				free(found_path);
+				free_argv(argv, argc);
+				exit(EXIT_FAILURE);
+			}
+		}
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("wait");
+			exit(EXIT_FAILURE);
+		}
+	}
+	if (found_path && (stat(argv[0], &buffer)))
+		free(found_path);
+	free_argv(argv,argc);
+	argc = 0;
+	free(cmd);
+	cmd = NULL;
+}
 
 /**
  * main - Entry point
@@ -88,7 +161,7 @@ int main(void)
 	if (isatty(STDIN_FILENO) == 1)
 	{
 	while (1)
-	{	
+	{
 		write(1, "$ ", 2);
 		line_read = getline(&cmd, &n, stdin);
 		if (line_read == -1)
@@ -156,6 +229,7 @@ int main(void)
 
 	}
 	free(cmd);
-	}
+	} else
+		non_interactive();
 	return (0);
 }
