@@ -21,7 +21,7 @@ void free_argv(char **argv, int argc)
  * @argc: arg count
  * Return: array of args
  */
-char **split_input(char *cmd, int *argc)
+char **split_input(char cmd[], int *argc)
 {
 	char *str;
 	char **argv = NULL;
