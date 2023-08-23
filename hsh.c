@@ -225,10 +225,10 @@ int main(void)
 		free_argv(argv,argc);
 		argc = 0;
 		free(cmd);
-		/*cmd = NULL;*/
+		cmd = NULL;
 
 	}
-	/*free(cmd);*/
+	free(cmd);
 	return (0);
 	}
 	non_interactive();
