@@ -89,17 +89,20 @@ int main(void)
 		line_read = getline(&cmd, &n, stdin);
 		if (line_read == -1)
 		{
-			if (feof(stdin))
+			write(1, "\n", 1);
+			free(cmd);
+			exit(1);
+		/*	if (feof(stdin))
 				break;
 			else if (cmd != NULL)
 			{
 				free(cmd);
 				cmd = NULL;
 				continue;
-				/*break;*/
+				break;
 			}
 			perror("getline");
-			break;
+			break;*/
 		}
 		if (_strlen(cmd) > 0 && cmd[_strlen(cmd) - 1] == '\n')
 			cmd[_strlen(cmd) - 1] = '\0';
