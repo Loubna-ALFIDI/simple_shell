@@ -46,7 +46,7 @@ void *_realloc(void *ptr, unsigned int size)
 	{
 		__memcpy(pointer, ptr, size);
 		free(ptr);
-        }
-	
+	}
+
 	return (pointer);
 }

@@ -1,12 +1,18 @@
 #include "shell.h"
 #include <signal.h>
+
+/**
+ * free_argv - frees args
+ * @argv: array of args
+ * @argc: args count
+ */
 void free_argv(char **argv, int argc)
 {
 	int i;
 
-    for (i = 0; i < argc; i++)
-        free(argv[i]);
-    free(argv);
+	for (i = 0; i < argc; i++)
+		free(argv[i]);
+	free(argv);
 }
 
 /**
@@ -40,8 +46,8 @@ char **split_input(char cmd[], int *argc)
 		}
 		if (!quotes)
 		{
-			argv = realloc(argv, (count + 1) * sizeof(char *));
-			argv[count] = strdup(str);
+			argv = _realloc(argv, (count + 1) * sizeof(char *));
+			argv[count] = _strdup(str);
 			if (argv[count] == NULL)
 			{
 				perror("Memory allocation error");
@@ -53,7 +59,7 @@ char **split_input(char cmd[], int *argc)
 	}
 	if (count > 0)
 	{
-		argv = realloc(argv, (count + 1) * sizeof(char *));
+		argv = _realloc(argv, (count + 1) * sizeof(char *));
 		argv[count] = NULL;
 	}
 	*argc = count;
@@ -62,13 +68,18 @@ char **split_input(char cmd[], int *argc)
 
 /**
  * sigint_handler - handles the case when the program gets imterrupted
+ * @signum: signal number
  */
 void sigint_handler(int signum)
 {
-        (void)signum;
+	(void)signum;
 	write(STDOUT_FILENO, "\n$ ", 4);
 }
-void non_interactive()
+
+/**
+ * non_interactive - handles non interactive
+ */
+void non_interactive(void)
 {
 	char *cmd = NULL;
 	size_t n = 0;
@@ -96,9 +107,7 @@ void non_interactive()
 		exit(1);
 	}
 	if (_strcmp(cmd, "env") == 0)
-	{
 		builtin_env();
-	}
 	if (_strcmp(cmd, "exit") == 0)
 		exit(1);
 	found_path = NULL;
@@ -114,8 +123,8 @@ void non_interactive()
 			_strcat(error_msg, argv[0]);
 			_strcat(error_msg, ": not found\n");
 			write(STDERR_FILENO, "./hsh: ", 7);
-			write(STDERR_FILENO, error_msg, strlen(error_msg));
-			free_argv(argv,argc);
+			write(STDERR_FILENO, error_msg, _strlen(error_msg));
+			free_argv(argv, argc);
 			exit(1);
 		}
 	} else
@@ -142,7 +151,7 @@ void non_interactive()
 				_strcat(error_msg, argv[0]);
 				_strcat(error_msg, ": not found\n");
 				write(STDERR_FILENO, "./hsh: ", 7);
-				write(STDERR_FILENO, error_msg, strlen(error_msg));
+				write(STDERR_FILENO, error_msg, _strlen(error_msg));
 				free(found_path);
 				free_argv(argv, argc);
 				exit(EXIT_FAILURE);
@@ -156,7 +165,7 @@ void non_interactive()
 	}
 	if (found_path && (stat(argv[0], &buffer)))
 		free(found_path);
-	free_argv(argv,argc);
+	free_argv(argv, argc);
 	argc = 0;
 	free(cmd);
 	cmd = NULL;
@@ -201,9 +210,7 @@ int main(void)
 			continue;
 		}
 		if (_strcmp(cmd, "env") == 0)
-		{
 			builtin_env();
-		}
 		if (_strcmp(cmd, "exit") == 0)
 			break;
 		found_path = NULL;
@@ -219,8 +226,8 @@ int main(void)
 				_strcat(error_msg, argv[0]);
 				_strcat(error_msg, ": not found\n");
 				write(STDERR_FILENO, "./hsh: ", 7);
-				write(STDERR_FILENO, error_msg, strlen(error_msg));
-				free_argv(argv,argc);
+				write(STDERR_FILENO, error_msg, _strlen(error_msg));
+				free_argv(argv, argc);
 				continue;
 			}
 		} else
@@ -246,7 +253,7 @@ int main(void)
 					_strcat(error_msg, argv[0]);
 					_strcat(error_msg, ": not found\n");
 					write(STDERR_FILENO, "./hsh: ", 7);
-					write(STDERR_FILENO, error_msg, strlen(error_msg));
+					write(STDERR_FILENO, error_msg, _strlen(error_msg));
 					free(found_path);
 					free_argv(argv, argc);
 					exit(EXIT_FAILURE);
@@ -260,14 +267,15 @@ int main(void)
 		}
 		if (found_path && (stat(argv[0], &buffer)))
 			free(found_path);
-		free_argv(argv,argc);
+		free_argv(argv, argc);
 		argc = 0;
 		free(cmd);
 		cmd = NULL;
 
 	}
 	free(cmd);
-	} else
+	}
+	else
 		non_interactive();
 	return (0);
 }
