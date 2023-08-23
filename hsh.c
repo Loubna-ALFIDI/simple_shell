@@ -40,7 +40,7 @@ char **split_input(char cmd[], int *argc)
 		}
 		if (!quotes)
 		{
-			argv = realloc(argv, (count + 1) * sizeof(char *));
+			argv = _realloc(argv, (count + 1) * sizeof(char *));
 			argv[count] = strdup(str);
 			if (argv[count] == NULL)
 			{
@@ -53,7 +53,7 @@ char **split_input(char cmd[], int *argc)
 	}
 	if (count > 0)
 	{
-		argv = realloc(argv, (count + 1) * sizeof(char *));
+		argv = _realloc(argv, (count + 1) * sizeof(char *));
 		argv[count] = NULL;
 	}
 	*argc = count;
