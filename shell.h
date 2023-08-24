@@ -4,6 +4,7 @@
 /* Libraries */
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -44,9 +45,12 @@ void echo (char *cmd);
 /*function*/
 void reverse(char str[], int length);
 char *_itoa(int num, char* str, int base);
+int my_atoi(const char *str);
 
 extern char **environ;
 /*getline*/
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
+/*exit*/
+void handle_exit(char **argv);
 
 #endif

@@ -109,7 +109,9 @@ void non_interactive(void)
 	if (_strcmp(cmd, "env") == 0)
 		builtin_env();
 	if (_strcmp(cmd, "exit") == 0)
+	{
 		exit(1);
+	}
 	found_path = NULL;
 	argv = split_input(cmd, &argc);
 	if (argc > 0)
@@ -212,7 +214,9 @@ int main(void)
 		if (_strcmp(cmd, "env") == 0)
 			builtin_env();
 		if (_strcmp(cmd, "exit") == 0)
+		{
 			break;
+		}
 		found_path = NULL;
 		argv = split_input(cmd, &argc);
 		if (argc > 0)

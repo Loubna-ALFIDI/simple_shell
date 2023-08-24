@@ -60,3 +60,20 @@ char *_itoa(int num, char *str, int base)
 	reverse(str, i);
 	return (str);
 }
+int my_atoi(const char *str)
+{
+	int result = 0;
+	bool negative = false;
+
+	if (*str == '-')
+	{
+		negative = true;
+		str++;
+	}
+	while (*str >= '0' && *str <= '9')
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
+	return negative ? -result : result;
+}
