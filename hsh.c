@@ -46,8 +46,13 @@ char **split_input(char cmd[], int *argc)
 		}
 		if (!quotes)
 		{
+<<<<<<< HEAD
 			argv = realloc(argv, (count + 1) * sizeof(char *));
 			argv[count] = _strdup(str);
+=======
+			argv = _realloc(argv, (count + 1) * sizeof(char *));
+			argv[count] = strdup(str);
+>>>>>>> 488a7d2e4be73f752c3bcf85dcf4df1fcaf807a6
 			if (argv[count] == NULL)
 			{
 				perror("Memory allocation error");
@@ -59,7 +64,7 @@ char **split_input(char cmd[], int *argc)
 	}
 	if (count > 0)
 	{
-		argv = realloc(argv, (count + 1) * sizeof(char *));
+		argv = _realloc(argv, (count + 1) * sizeof(char *));
 		argv[count] = NULL;
 	}
 	*argc = count;
