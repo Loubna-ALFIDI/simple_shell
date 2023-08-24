@@ -46,5 +46,7 @@ void reverse(char str[], int length);
 char *_itoa(int num, char* str, int base);
 
 extern char **environ;
+/*getline*/
+ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif

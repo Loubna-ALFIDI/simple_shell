@@ -91,7 +91,7 @@ void non_interactive(void)
 	char **argv = NULL;
 	struct stat buffer;
 
-	line_read = getline(&cmd, &n, stdin);
+	line_read = my_getline(&cmd, &n, stdin);
 	if (line_read == -1)
 	{
 		write(1, "\n", 1);
