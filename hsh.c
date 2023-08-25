@@ -215,6 +215,7 @@ int main(void)
 			builtin_env();
 		if (_strcmp(cmd, "exit") == 0)
 		{
+			handle_exit(argv, argc);
 			break;
 		}
 		found_path = NULL;

@@ -1,4 +1,4 @@
-fndef SHELL_H
+#ifndef SHELL_H
 #define SHELL_H
 
 /* Libraries */
@@ -51,7 +51,13 @@ int my_atoi(const char *str);
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
 
 /*exit*/
-void handle_exit(char **argv);
+void handle_exit(char **argv, int argc);
+
+/* hsh.c */
+char **split_input(char cmd[], int *argc);
+void sigint_handler(int signum);
+void non_interactive(void);
+void free_argv(char **argv, int argc);
 
 extern char **environ;
 

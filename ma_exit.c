@@ -1,4 +1,9 @@
 #include "shell.h"
+
+/**
+ * my_free_argv - frees argv
+ * @argv: array of args
+ */
 void my_free_argv(char **argv)
 {
 	int i;
@@ -9,32 +14,42 @@ void my_free_argv(char **argv)
 		free(argv[i]);
 	free(argv);
 }
+
+/**
+ * is_digit - checks if c is a digit
+ * @c: char
+ */
 bool is_digit(char c)
 {
 	return c >= '0' && c <= '9';
 }
-void handle_exit(char **argv)
+
+/**
+ * handle_exit - exit built-in funcion
+ * @argv: array of args
+ * @argc: arg count
+ */
+void handle_exit(char **argv, int argc)
 {
 	int exit_status = 0;
 	char *str;
 
-	if (argv[1] != NULL)
+	if (argc > 1 && argv[1] != NULL)
 	{
 		str = argv[1];
 		while (*str != '\0')
 		{
 			if (!is_digit(*str))
 			{
-				fprintf(stderr, "Invalid exit status: %s\n", argv[1]);
+				_puts("Invalid exit status: ");
+				_puts(argv[1]);
+				free_argv(argv, argc);
 				exit(EXIT_FAILURE);
 			}
 			str++;
 		}
 		exit_status = my_atoi(argv[1]);
-		free(argv);
-		if (argv != NULL)
-			my_free_argv(argv);
 	}
-	
+	free_argv(argv, argc);
 	exit(exit_status);
 }
