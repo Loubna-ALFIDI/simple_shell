@@ -60,6 +60,11 @@ char *_itoa(int num, char *str, int base)
 	reverse(str, i);
 	return (str);
 }
+/**
+ * my_atoi - convert an integer into its ASCII string representation.
+ * @str: A character array where the resulting ASCII string will be stored.
+ * Return: returns the constructed ASCII string.
+ */
 int my_atoi(const char *str)
 {
 	int result = 0;
@@ -75,5 +80,5 @@ int my_atoi(const char *str)
 		result = result * 10 + (*str - '0');
 		str++;
 	}
-	return negative ? -result : result;
+	return (negative ? -result : result);
 }
