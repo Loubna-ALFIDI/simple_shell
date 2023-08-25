@@ -1,4 +1,4 @@
-#ifndef SHELL_H
+fndef SHELL_H
 #define SHELL_H
 
 /* Libraries */
@@ -47,10 +47,12 @@ void reverse(char str[], int length);
 char *_itoa(int num, char* str, int base);
 int my_atoi(const char *str);
 
-extern char **environ;
 /*getline*/
 ssize_t my_getline(char **lineptr, size_t *n, FILE *stream);
+
 /*exit*/
 void handle_exit(char **argv);
+
+extern char **environ;
 
 #endif
