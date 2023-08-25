@@ -187,7 +187,7 @@ int main(void)
 	char *found_path;
 	pid_t pid;
 	int argc = 0, status;
-	char **argv = NULL;
+	char **argv = NULL, **exit_a;
 	struct stat buffer;
 
 	signal(SIGINT, sigint_handler);
@@ -215,7 +215,9 @@ int main(void)
 			builtin_env();
 		if (_strcmp(cmd, "exit") == 0)
 		{
-			handle_exit(argv, argc);
+			exit_a = split_input(cmd, &argc);
+			handle_exit(exit_a, argc);
+			free_argv(exit_a, argc);
 			break;
 		}
 		found_path = NULL;
