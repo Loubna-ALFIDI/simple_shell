@@ -5,12 +5,11 @@
  */
 void builtin_env(void)
 {
-	char **env = environ;
-	int i = 0;
+	char **env;
 
-	for (i = 0; env[i] != NULL; i++)
+	for (env = environ; *env != NULL; env++)
 	{
-		write(1, *env, _strlen(env[i]));
+		write(1, *env, _strlen(*env));
 		write(1, "\n", 1);
 	}
 }
