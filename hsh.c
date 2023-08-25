@@ -88,7 +88,7 @@ void non_interactive(void)
 	char *found_path;
 	pid_t pid;
 	int argc = 0, status;
-	char **argv = NULL, **exit_a = NULL;
+	char **argv = NULL;
 	struct stat buffer;
 
 	line_read = getline(&cmd, &n, stdin);
@@ -109,12 +109,7 @@ void non_interactive(void)
 	if (_strcmp(cmd, "env") == 0)
 		builtin_env();
 	if (_strcmp(cmd, "exit") == 0)
-	{
-		exit_a = split_input(cmd, &argc);
-		handle_exit(exit_a, argc);
-		free_argv(exit_a, argc);
-		free(exit_a);
-	}
+		exit(1);
 	found_path = NULL;
 	argv = split_input(cmd, &argc);
 	if (argc > 0)
@@ -190,7 +185,7 @@ int main(void)
 	char *found_path;
 	pid_t pid;
 	int argc = 0, status;
-	char **argv = NULL, **exit_a;
+	char **argv = NULL;
 	struct stat buffer;
 
 	signal(SIGINT, sigint_handler);
@@ -217,13 +212,7 @@ int main(void)
 		if (_strcmp(cmd, "env") == 0)
 			builtin_env();
 		if (_strcmp(cmd, "exit") == 0)
-		{
-			exit_a = split_input(cmd, &argc);
-			handle_exit(exit_a, argc);
-			free_argv(exit_a, argc);
-			free(exit_a);
 			break;
-		}
 		found_path = NULL;
 		argv = split_input(cmd, &argc);
 		if (argc > 0)
