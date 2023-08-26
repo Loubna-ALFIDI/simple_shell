@@ -87,7 +87,7 @@ void non_interactive(void)
 	ssize_t line_read;
 	char *found_path;
 	pid_t pid;
-	int argc = 0, status;
+	int argc = 0, status = 0;
 	char **argv = NULL;
 	struct stat buffer;
 
@@ -276,5 +276,5 @@ int main(void)
 	}
 	else
 		non_interactive();
-	return (0);
+	return (status);
 }
