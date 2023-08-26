@@ -184,7 +184,7 @@ int main(void)
 	ssize_t line_read;
 	char *found_path;
 	pid_t pid;
-	int argc = 0, status;
+	int argc = 0, status = 0;
 	char **argv = NULL;
 	struct stat buffer;
 
