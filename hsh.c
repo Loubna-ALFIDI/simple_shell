@@ -81,14 +81,11 @@ void sigint_handler(int signum)
  */
 void non_interactive(void)
 {
-	char *cmd = NULL;
+	char *cmd = NULL, *found_path, error_msg[50], **argv = NULL;
 	size_t n = 0;
-	char error_msg[50];
 	ssize_t line_read;
-	char *found_path;
 	pid_t pid;
 	int argc = 0, status = 0;
-	char **argv = NULL;
 	struct stat buffer;
 
 	line_read = getline(&cmd, &n, stdin);
@@ -178,14 +175,11 @@ void non_interactive(void)
  */
 int main(void)
 {
-	char *cmd = NULL;
+	char *cmd = NULL, *found_path = NULL, **argv = NULL, error_msg[50];
 	size_t n = 0;
-	char error_msg[50];
 	ssize_t line_read;
-	char *found_path;
 	pid_t pid;
-	int argc = 0, status = 0;
-	char **argv = NULL;
+	int argc = 0, status;
 	struct stat buffer;
 
 	signal(SIGINT, sigint_handler);
@@ -276,5 +270,5 @@ int main(void)
 	}
 	else
 		non_interactive();
-	return (status);
+	return (0);
 }
